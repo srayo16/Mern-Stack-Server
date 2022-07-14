@@ -62,6 +62,7 @@ async function run() {
     try {
         await client.connect();
         const database = client.db("emails").collection("clients");
+        const databaseTwo = client.db("emails").collection("clientsDetails");
 
         app.post('/sendEmail', async (req, res) => {
             const email = req.body;
@@ -76,6 +77,12 @@ async function run() {
             // console.log(otp, email);
             res.send(sendingData);
 
+        })
+
+        app.post('/info', async (req, res) => {
+            const doc = req.body;
+            const insertData = await databaseTwo.insertOne(doc);
+            res.send(insertData);
         })
 
         app.get('/clients', async (req, res) => {
